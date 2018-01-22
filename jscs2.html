@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>模拟队列</title>
+		<style>
+			li{
+				display: inline-block;
+				background-color: aliceblue;
+				color: cornflowerblue;
+				font-size: 20px;
+				text-align:center;
+                padding:5px;
+                margin:5px;
+                cursor:pointer;
+			}
+		</style>
+	</head>
+	<body>
+		<input type="text" id="innum">
+		<button id="btnLeftIn">左侧近</button>
+		<button id="btnRightIn">右侧近</button>
+		<button id="btnLeftOut">左侧出</button>
+		<button id="btnRightOut">右侧出</button>
+		<ul id="outnum"></ul>
+		<script type="text/javascript">
+		var inNum = document.getElementById("innum");
+        var outNum = document.getElementById("outnum");
+        var btnLeftIn = document.getElementById("btnLeftIn");
+        var btnRightIn = document.getElementById("btnRightIn");
+        var btnLeftOut = document.getElementById("btnLeftOut");
+        var btnRightOut = document.getElementById("btnRightOut");
+        // 插入数字
+        function insert(direction) {
+            if(inNum.value==""){
+					alert("请输入需要插入的数值");
+					inNum.focus();
+					}else if(isNaN(inNum.value)){
+						alert("只允许插入数值");
+						inNum.focus();
+					}else{
+						var oLi=document.createElement("li");
+						oLi.innerHTML=inNum.value;
+						if(direction=='left'){
+							outNum.insertBefore(oLi,outNum.firstChild);
+						}else{
+							outNum.appendChild(oLi);
+						}
+					}
+
+          }
+        // 删除数字 
+        function del(node,direction){
+          if(outNum.childNodes.length<=0){
+					alert("不存在元素可以删除");
+					return false;
+				}else{
+					if(direction=='left'){
+						alert("删除数字："+outNum.firstChild.innerText+'!');
+						outNum.removeChild(outNum.firstChild);
+					}else if(direction=='right'){
+						alert("删除数字：" +outNum.lastChild.innerText +"！");
+                        outNum.removeChild(outNum.lastChild);
+					}else{ //点击li标签删除
+                    alert("删除数字：" +outNum.removeChild(node).innerText +"！");
+                }
+				}
+        }
+        //按钮
+        btnLeftIn.onclick = function(){insert("left");};
+        btnRightIn.onclick = function(){insert("right");};
+        btnLeftOut.onclick = function(){del(-1,"left");};
+        btnRightOut.onclick = function(){del(-1,"right");};
+        outNum.onclick = function(){del(event.target)};	
+		</script>
+	</body>
+</html>

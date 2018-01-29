@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>跨浏览器点击</title>
+		<script src="js/event.js"></script>
+	</head>
+	<body>
+		<div id="box">
+		<input type="button" id="btn1" value="按钮1" />
+		<a href="www.baidu.com" id="go">跳转</a>
+		</div>
+		<script type="text/javascript">
+			function showMessage(event){
+				event = event ||window.event;//ie8以前通过window.event获取event对象
+				var ele=event.target || event.srcElement;
+				alert(ele);
+				event.stopPropagation();//组织冒泡
+			}
+			function showBox(){
+				alert("box");
+			}
+			function stopGoto(event){
+				event.stopPropagation();
+				event.preventDefault();//取消事件默认值
+			}
+			var btn1=document.getElementById("btn1");
+			var box=document.getElementById("box");
+			var go=document.getElementById("go");
+           // btn1.addEventListener('click',showMessage,false);
+			//跨浏览器事件处理程序
+			
+			eventUtil.addHandler(btn1,'click',showMessage);
+			eventUtil.addHandler(box,'click',showBox);
+			eventUtil.addHandler(go,'click',function(e){
+				e=eventUtil.getEvent(e);
+				alert(eventUtil.getElement(e));
+				eventUtil.stopPropagation(e);
+				eventUtil.preventDefault(e);
+			});
+			//eventUtil.removeHandler(btn1,'click',showMessage);
+//			if (window.addEventListener) {
+//
+//		btn1.addEventListener('click',showMessage,false);
+//
+//	      } else {
+//
+//		btn1.attachEvent('onclick',showMessage);
+//
+//	}
+		</script>
+	</body>
+</html>
